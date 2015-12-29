@@ -2,6 +2,9 @@ package cn.reactnative.httpcache;
 
 import android.content.Intent;
 
+import com.facebook.cache.disk.DiskStorageCache;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -39,12 +42,25 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getSize(Callback callback){
+    public void getHttpCacheSize(Callback callback){
         try {
             Cache cache = OkHttpClientProvider.getOkHttpClient().getCache();
             callback.invoke(null, cache != null ? cache.getSize() : 0);
         } catch(IOException e){
             callback.invoke(e.getMessage());
         }
+    }
+
+    @ReactMethod
+    public void getImageCacheSize(Callback callback){
+        DiskStorageCache cache = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+        callback.invoke(null, cache.getSize());
+    }
+
+    @ReactMethod
+    public void clearImageCache(Callback callback){
+        DiskStorageCache cache = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+        cache.clearAll();
+        callback.invoke();
     }
 }
