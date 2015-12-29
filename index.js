@@ -28,7 +28,7 @@ function wrapApi(nativeFunc, argCount) {
     return undefined;
   }
   const promisified = promisify(nativeFunc, translateError);
-  if (argCount){
+  if (argCount != undefined){
     return (...args) => {
       let _args = args;
       if (_args.length < argCount) {
@@ -59,5 +59,5 @@ export async function getSize(){
 }
 
 export async function clear(){
-  await Promise.all([clearHttpCache, clearImageCache]);
+  await Promise.all([clearHttpCache(), clearImageCache()]);
 }
