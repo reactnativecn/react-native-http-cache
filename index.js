@@ -30,8 +30,13 @@ function wrapApi(nativeFunc, argCount) {
   const promisified = promisify(nativeFunc, translateError);
   if (argCount){
     return (...args) => {
-      args[argCount-1] = args[argCount-1] || undefined;
-      return promisified(...args);
+      let _args = args;
+      if (_args.length < argCount) {
+        _args[argCount - 1] = undefined;
+      } else if (_args.length > argCount){
+        _args = _args.slice(0, args);
+      }
+      return promisified(..._args);
     };
   } else {
     return () => {
