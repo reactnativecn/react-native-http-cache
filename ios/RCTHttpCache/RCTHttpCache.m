@@ -62,10 +62,6 @@ RCT_EXPORT_METHOD(clearImageCache:(RCTResponseSenderBlock)resolve)
     RCTImageLoader* loader = _bridge.imageLoader;
     NSURLCache *cache = [loader valueForKey:@"_URLCache"];
     
-//        Ivar ivar = class_getInstanceVariable([RCTImageLoader class], [@"_URLCache" UTF8String]);
-//        NSURLCache *cache = object_getIvar(loader, ivar);
-//        NSLog(@"%@",cache);
-//        NSLog(@"%@",[loader valueForKey:@"_URLCache"]);
     return cache;
 }
 
