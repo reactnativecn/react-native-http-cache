@@ -34,7 +34,7 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void clearCache(Callback callback){
         try {
-            Cache cache = OkHttpClientProvider.getOkHttpClient().getCache();
+            Cache cache = OkHttpClientProvider.getOkHttpClient().cache();
             if (cache != null) {
                 cache.delete();
             }
@@ -47,8 +47,8 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getHttpCacheSize(Callback callback){
         try {
-            Cache cache = OkHttpClientProvider.getOkHttpClient().getCache();
-            callback.invoke(null, cache != null ? ((double)cache.getSize()) : 0);
+            Cache cache = OkHttpClientProvider.getOkHttpClient().cache();
+            callback.invoke(null, cache != null ? ((double)cache.size()) : 0);
         } catch(IOException e){
             callback.invoke(e.getMessage());
         }
