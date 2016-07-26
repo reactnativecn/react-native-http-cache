@@ -3,6 +3,7 @@ package cn.reactnative.httpcache;
 import android.content.Intent;
 
 import com.facebook.cache.disk.DiskStorageCache;
+import com.facebook.cache.disk.FileCache;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.react.bridge.Callback;
@@ -10,7 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.modules.network.OkHttpClientProvider;
-import com.squareup.okhttp.Cache;
+import okhttp3.Cache;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -64,22 +65,22 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getImageCacheSize(Callback callback){
-        DiskStorageCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
         long size1 = cache1.getSize();
         if (size1 < 0){
             try {
-                updateCacheSize(cache1);
+                updateCacheSize((DiskStorageCache)cache1);
             } catch (Exception e){
                 callback.invoke(e.getMessage());
                 return;
             }
             size1 = cache1.getSize();
         }
-        DiskStorageCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
+        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
         long size2 = cache2.getSize();
         if (size2 < 0){
             try {
-                updateCacheSize(cache2);
+                updateCacheSize((DiskStorageCache)cache2);
             } catch (Exception e){
                 callback.invoke(e.getMessage());
                 return;
@@ -91,9 +92,9 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void clearImageCache(Callback callback){
-        DiskStorageCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
         cache1.clearAll();
-        DiskStorageCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
+        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
         cache2.clearAll();
         callback.invoke();
     }
