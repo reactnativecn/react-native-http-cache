@@ -44,20 +44,24 @@ function wrapApi(nativeFunc, argCount) {
     };
   }
 }
-export const clearHttpCache = wrapApi(native.clearCache);
-
-export const getHttpCacheSize = wrapApi(native.getHttpCacheSize);
-
-export const clearImageCache = wrapApi(native.clearImageCache);
-
-export const getImageCacheSize = wrapApi(native.getImageCacheSize);
-
-export async function getSize(){
+const clearHttpCache = wrapApi(native.clearCache);
+const getHttpCacheSize = wrapApi(native.getHttpCacheSize);
+const clearImageCache = wrapApi(native.clearImageCache);
+const getImageCacheSize = wrapApi(native.getImageCacheSize);
+async function getSize(){
   const arr = await Promise.all([getHttpCacheSize(), getImageCacheSize()]);
   // Get sum of all cache type.
   return arr.reduce((a,b)=>a+b, 0);
 }
-
-export async function clear(){
+async function clear(){
   await Promise.all([clearHttpCache(), clearImageCache()]);
+}
+
+export default {
+  clearImageCache,
+  getImageCacheSize,
+  clearHttpCache,
+  getHttpCacheSize,
+  getSize,
+  clear,
 }
