@@ -66,6 +66,16 @@ public class MainActivity extends Activity {
 }
 ```
 
+## JavaScript: import all and invoke!
+
+```js
+import * as CacheManager from 'react-native-http-cache';
+
+// invoke API directly when in need
+CacheManager.clear();
+
+```
+
 ## API Documentation
 
 #### clear()
