@@ -1,7 +1,7 @@
 React Native http cache control for both fetch/XMLHttpRequest and ImageView
 
 - [x] iOS
-- [x] Android
+- [ ] Android (Currently broken)
 
 ## Installation
 
@@ -72,49 +72,30 @@ public class MainActivity extends Activity {
 import * as CacheManager from 'react-native-http-cache';
 
 // invoke API directly when in need
-CacheManager.clear();
+CacheManager.clearCache();
 
 ```
 
 ## API Documentation
 
-#### clear()
+#### clearCache()
 
-Clear cache for all type.
+Clear cache.
 
-Return a promise which indicate the clear state.
+Returns a promise which indicate the clear state.
 
-#### getSize()
+#### getCacheSize()
 
-Get cache size for all type.
+Returns a promise that contain the cache size (in bytes).
 
-Return a promise that contain the cache size(in bytes).
+#### existsInCache(url)
 
-#### clearHttpCache()
+Check if a URL exists in the cache.
 
-Clear cache for fetch/ajax only.
-
-Return a promise which indicate the clear state.
-
-#### getHttpCacheSize()
-
-Get cache size for fetch/ajax only.
-
-Return a promise that contain the cache size(in bytes).
-
-#### clearImageCache()
-
-Clear cache for ImageView only.
-
-Return a promise which indicate the clear state.
-
-#### getImageCacheSize()
-
-Get cache size for ImageView only.
-
-Return a promise that contain the cache size(in bytes).
+Return a promise that indicates the URLs existance in cache (boolean).
 
 ## Authors
 
 - [Deng Yun](https://github.com/tdzl2003) from [React-Native-CN](https://github.com/reactnativecn)
 - [Lv Bingru](https://github.com/lvbingru) from [React-Native-CN](https://github.com/reactnativecn)
+- [Peter Salanki](https://github.com/salanki)
