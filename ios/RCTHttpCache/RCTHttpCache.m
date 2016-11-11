@@ -8,6 +8,7 @@
 
 #import "RCTHttpCache.h"
 #import "RCTImageLoader.h"
+#import "RCTImageCache.h"
 #import "RCTBridge.h"
 
 @implementation RCTHttpCache
@@ -16,60 +17,28 @@
 
 RCT_EXPORT_MODULE(HttpCache);
 
-RCT_EXPORT_METHOD(getHttpCacheSize:(RCTResponseSenderBlock)resolve)
+RCT_EXPORT_METHOD(getHttpCacheSize:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
     NSURLCache *httpCache = [NSURLCache sharedURLCache];
-    resolve(@[[NSNull null], @([httpCache currentDiskUsage])]);
+    resolve(@([httpCache currentDiskUsage]));
 }
 
-RCT_EXPORT_METHOD(clearCache:(RCTResponseSenderBlock)resolve)
+RCT_EXPORT_METHOD(clearCache:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
     NSURLCache *httpCache = [NSURLCache sharedURLCache];
     [httpCache removeAllCachedResponses];
-    resolve(@[[NSNull null]]);
+    resolve(nil);
 }
 
 
-RCT_EXPORT_METHOD(getImageCacheSize:(RCTResponseSenderBlock)resolve)
+RCT_EXPORT_METHOD(getImageCacheSize:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-    NSURLCache *imageCache = [self imageCache];
-    dispatch_queue_t queue = [self imageCacheQueue];
-    if (imageCache == nil || queue == nil) {
-        resolve(@[@"cache not found"]);
-    }
-    dispatch_async(queue, ^{
-        resolve(@[[NSNull null], @([imageCache currentDiskUsage])]);
-    });
+    resolve(@0);
 }
 
-RCT_EXPORT_METHOD(clearImageCache:(RCTResponseSenderBlock)resolve)
+RCT_EXPORT_METHOD(clearImageCache:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-    NSURLCache *imageCache = [self imageCache];
-    dispatch_queue_t queue = [self imageCacheQueue];
- 
-    if (imageCache == nil || queue == nil) {
-        resolve(@[@"cache not found"]);
-    }
-
-    dispatch_async(queue, ^{
-        [imageCache removeAllCachedResponses];
-        resolve(@[[NSNull null]]);
-    });
-}
-
-- (NSURLCache *)imageCache
-{
-    RCTImageLoader* loader = _bridge.imageLoader;
-    NSURLCache *cache = [loader valueForKey:@"_URLCache"];
-    
-    return cache;
-}
-
-- (dispatch_queue_t)imageCacheQueue
-{
-    RCTImageLoader* loader = _bridge.imageLoader;
-    dispatch_queue_t queue = [loader valueForKey:@"_URLCacheQueue"];
-    return queue;
+    resolve(nil);
 }
 
 

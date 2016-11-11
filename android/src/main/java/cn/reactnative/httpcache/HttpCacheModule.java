@@ -7,6 +7,7 @@ import com.facebook.cache.disk.FileCache;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -32,25 +33,25 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearCache(Callback callback){
+    public void clearCache(Promise promise){
         try {
             Cache cache = OkHttpClientProvider.getOkHttpClient().cache();
             if (cache != null) {
                 cache.delete();
             }
-            callback.invoke();
+            promise.resolve(null);
         } catch(IOException e){
-            callback.invoke(e.getMessage());
+            promise.reject(e);
         }
     }
 
     @ReactMethod
-    public void getHttpCacheSize(Callback callback){
+    public void getHttpCacheSize(Promise promise){
         try {
             Cache cache = OkHttpClientProvider.getOkHttpClient().cache();
-            callback.invoke(null, cache != null ? ((double)cache.size()) : 0);
+            promise.resolve(cache != null ? ((double)cache.size()) : 0);
         } catch(IOException e){
-            callback.invoke(e.getMessage());
+            promise.reject(e);
         }
     }
 
@@ -64,14 +65,14 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getImageCacheSize(Callback callback){
+    public void getImageCacheSize(Promise promise){
         FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
         long size1 = cache1.getSize();
         if (size1 < 0){
             try {
                 updateCacheSize((DiskStorageCache)cache1);
             } catch (Exception e){
-                callback.invoke(e.getMessage());
+                promise.reject(e);
                 return;
             }
             size1 = cache1.getSize();
@@ -82,20 +83,20 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
             try {
                 updateCacheSize((DiskStorageCache)cache2);
             } catch (Exception e){
-                callback.invoke(e.getMessage());
+                promise.reject(e);
                 return;
             }
             size2 = cache2.getSize();
         }
-        callback.invoke(null, ((double)(size1+size2)));
+        promise.resolve(((double)(size1+size2)));
     }
 
     @ReactMethod
-    public void clearImageCache(Callback callback){
-        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+    public void clearImageCache(Promise promise){
+        FileCache cache1 = ImagePipelineFactory.getInstance().getMainFileCache();
         cache1.clearAll();
-        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
+        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageFileCache();
         cache2.clearAll();
-        callback.invoke();
+        promise.resolve(null);
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-native-http-cache",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Control http cache used by fetch/XMLHttpRequest",
   "main": "index.js",
   "scripts": {
@@ -29,8 +29,5 @@
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-import": "^0.12.1",
     "eslint-plugin-react": "^3.13.1"
-  },
-  "dependencies": {
-    "es6-promisify": "^3.0.0"
   }
 }
