@@ -34,27 +34,34 @@ dependencies {
 }
 ```
 
-- Add following lines into `MainActivity.java`
+- Add following lines into `MainApplication.java`
 
 ```java
 ...
 import cn.reactnative.httpcache.HttpCachePackage;
-      // Add this line before public class MainActivity
+      // Add this line before public class MainApplication
 
-public class MainActivity extends Activity {
+public class MainApplication extends Application implements ReactApplication {
+
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ...
-        mReactInstanceManager = ReactInstanceManager.builder()
-            .setApplication(getApplication())
-            .setBundleAssetName("index.android.bundle")
-            .setJSMainModuleName("index.android")
-            .addPackage(new MainReactPackage())
-            .addPackage(new HttpCachePackage())        // Add this line
-            .setUseDeveloperSupport(BuildConfig.DEBUG)
-            .setInitialLifecycleState(LifecycleState.RESUMED)
-            .build();
+    protected boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
     }
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+          new HttpCachePackage(), // Add this line
+          new MainReactPackage()
+      );
+    }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+      return mReactNativeHost;
+  }
 }
 ```
 
