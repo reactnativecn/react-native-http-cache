@@ -66,7 +66,7 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getImageCacheSize(Promise promise){
-        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+        FileCache cache1 = ImagePipelineFactory.getInstance().getMainFileCache();
         long size1 = cache1.getSize();
         if (size1 < 0){
             try {
@@ -77,7 +77,7 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
             }
             size1 = cache1.getSize();
         }
-        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
+        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageFileCache();
         long size2 = cache2.getSize();
         if (size2 < 0){
             try {
