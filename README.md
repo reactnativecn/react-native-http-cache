@@ -85,13 +85,13 @@ CacheManager.clear();
 
 ## API Documentation
 
-#### clear()
+#### clearCache()
 
 Clear cache for all type.
 
 Return a promise which indicate the clear state.
 
-#### getSize()
+#### getCacheSize()
 
 Get cache size for all type.
 
