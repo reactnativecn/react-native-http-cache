@@ -79,19 +79,19 @@ public class MainApplication extends Application implements ReactApplication {
 import * as CacheManager from 'react-native-http-cache';
 
 // invoke API directly when in need
-CacheManager.clear();
+CacheManager.clearCache();
 
 ```
 
 ## API Documentation
 
-#### clear()
+#### clearCache()
 
 Clear cache for all type.
 
 Return a promise which indicate the clear state.
 
-#### getSize()
+#### getCacheSize()
 
 Get cache size for all type.
 
