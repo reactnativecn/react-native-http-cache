@@ -66,29 +66,30 @@ public class HttpCacheModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getImageCacheSize(Promise promise){
-        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
-        long size1 = cache1.getSize();
-        if (size1 < 0){
-            try {
-                updateCacheSize((DiskStorageCache)cache1);
-            } catch (Exception e){
-                promise.reject(e);
-                return;
-            }
-            size1 = cache1.getSize();
-        }
-        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
-        long size2 = cache2.getSize();
-        if (size2 < 0){
-            try {
-                updateCacheSize((DiskStorageCache)cache2);
-            } catch (Exception e){
-                promise.reject(e);
-                return;
-            }
-            size2 = cache2.getSize();
-        }
-        promise.resolve(((double)(size1+size2)));
+//        FileCache cache1 = ImagePipelineFactory.getInstance().getMainDiskStorageCache();
+//        long size1 = cache1.getSize();
+//        if (size1 < 0){
+//            try {
+//                updateCacheSize((DiskStorageCache)cache1);
+//            } catch (Exception e){
+//                promise.reject(e);
+//                return;
+//            }
+//            size1 = cache1.getSize();
+//        }
+//        FileCache cache2 = ImagePipelineFactory.getInstance().getSmallImageDiskStorageCache();
+//        long size2 = cache2.getSize();
+//        if (size2 < 0){
+//            try {
+//                updateCacheSize((DiskStorageCache)cache2);
+//            } catch (Exception e){
+//                promise.reject(e);
+//                return;
+//            }
+//            size2 = cache2.getSize();
+//        }
+//        promise.resolve(((double)(size1+size2)));
+        promise.resolve(0);
     }
 
     @ReactMethod
